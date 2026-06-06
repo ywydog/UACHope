@@ -32,7 +32,7 @@ public class Plugin : PluginBase
         {
             var startInfo = new ProcessStartInfo
             {
-                FileName = Environment.ProcessPath?.Replace(".dll", ".exe"),
+                FileName = AppBase.ExecutingEntrance,
                 Verb = "runas",
                 UseShellExecute = true
             };

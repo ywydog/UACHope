@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0-windows</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<EnableDynamicLoading>True</EnableDynamicLoading>
-		<PlatformTarget>x64</PlatformTarget>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<CreateCipx>true</CreateCipx>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<ClassIslandPluginSdkVersion>1.7.106.2-dev-v2</ClassIslandPluginSdkVersion>
+		<ClassIslandPluginSdkVersion>2.0.0.*</ClassIslandPluginSdkVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -20,10 +20,10 @@
 
 	<ItemGroup>
 		<None Update="manifest.yml">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="README.md">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 
