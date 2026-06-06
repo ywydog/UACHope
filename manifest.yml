@@ -6,6 +6,7 @@ url: https://github.com/ywydog/UACHope
 version: 1.0.0.0
 apiVersion: 2.0.0.0
 author: ywydog
+icon: icon.png
 readme: README.md
 repoOwner: ywydog
 repoName: UACHope
