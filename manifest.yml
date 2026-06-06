@@ -6,3 +6,6 @@ url: https://github.com/Programmer-MrWang/UACHope
 version: 1.0.0.0
 apiVersion: 2.0.0.0
 author: Programmer-MrWang
+readme: README.md
+repoOwner: Programmer-MrWang
+repoName: UACHope
