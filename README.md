@@ -1,10 +1,6 @@
-<div align="center">
-
 # UACHope
 
-[![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/Programmer-MrWang/UACHope)
-![GitHub License](https://img.shields.io/github/license/Programmer-MrWang/UACHope)
-![GitHub Release](https://img.shields.io/github/v/release/Programmer-MrWang/UACHope?include_prereleases)
+[![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/ywydog/UACHope)
 
 **ClassIsland 自动管理员提权插件 — 启动即提权，无需手动操作**
 
