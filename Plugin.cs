@@ -48,6 +48,7 @@ public class Plugin : PluginBase
 
             Process.Start(processStartInfo);
             AppBase.Current.Stop();
+            Environment.Exit(0);
         }
         catch
         {
