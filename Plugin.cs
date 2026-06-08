@@ -4,6 +4,8 @@ using ClassIsland.Core.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
+using System.Reflection;
+using System.Threading;
 
 namespace UACHope;
 
@@ -37,7 +39,7 @@ public class Plugin : PluginBase
                 UseShellExecute = true
             };
 
-            // 添加 -m 参数（ClassIsland 主启动参数）
+            // 添加 -m 参数：让新实例等待当前实例释放 Mutex 后再启动
             startInfo.ArgumentList.Add("-m");
 
             // 添加管理员重启标记，用于防止无限重启
@@ -50,12 +52,36 @@ public class Plugin : PluginBase
                 startInfo.ArgumentList.Add(args[i]);
             }
 
+            // 先释放 Mutex，确保新实例能立即获取锁，避免多开冲突
+            ReleaseAppMutex();
+
             Process.Start(startInfo);
             AppBase.Current.Stop();
         }
         catch
         {
             // runas 启动失败（如用户取消 UAC），不做任何操作，当前进程继续运行
+        }
+    }
+
+    /// <summary>
+    /// 释放 ClassIsland 的单实例 Mutex 锁。
+    /// 通过反射获取 App 实例中的 Mutex 字段并释放，确保新实例能立即获取锁。
+    /// </summary>
+    private static void ReleaseAppMutex()
+    {
+        try
+        {
+            var appType = AppBase.Current.GetType();
+            var mutexProp = appType.GetProperty("Mutex", BindingFlags.Public | BindingFlags.Instance);
+            if (mutexProp?.GetValue(AppBase.Current) is Mutex mutex)
+            {
+                mutex.ReleaseMutex();
+            }
+        }
+        catch
+        {
+            // 释放失败时仍继续，-m 参数会让新实例等待
         }
     }
 }
