@@ -2,9 +2,7 @@
 
 # UACHope
 
-[![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/Programmer-MrWang/UACHope)
-![GitHub License](https://img.shields.io/github/license/Programmer-MrWang/UACHope)
-![GitHub Release](https://img.shields.io/github/v/release/Programmer-MrWang/UACHope?include_prereleases)
+**在启用插件时，就会开始检查 classisland 的运行权限，检测到会直接重启提权，方便有系统限制的环境自动提权**
 
 **ClassIsland 自动管理员提权插件 — 启动即提权，无需手动操作**
 
