@@ -1,4 +1,7 @@
+using System;
 using System.IO;
+using ClassIsland.Core;
+using Microsoft.Extensions.Logging;
 
 namespace UACHope;
 
@@ -8,6 +11,9 @@ public static class RestartGuard
     private const string CountFileName = "UACHope_restart_count";
     private const int MaxRestartCount = 3;
     private static readonly TimeSpan RestartWindow = TimeSpan.FromSeconds(60);
+
+    private static ILogger? Logger =>
+        IAppHost.GetService<ILoggerFactory>()?.CreateLogger("UACHope.RestartGuard");
 
     /// <summary>
     /// 检查是否应该放弃重启。
@@ -19,7 +25,10 @@ public static class RestartGuard
         // 如果带了 --admin-restart 标记但仍然不是管理员，说明 UAC 被用户拒绝
         var args = Environment.GetCommandLineArgs();
         if (args.Contains(MarkerArg))
+        {
+            Logger?.LogWarning("检测到 --admin-restart 标记但仍非管理员，UAC 被拒绝");
             return true;
+        }
 
         // 检查重启计数是否超限
         return IsRestartCountExceeded();
@@ -37,9 +46,10 @@ public static class RestartGuard
             entries.Add(DateTime.UtcNow);
             WriteEntries(countFilePath, entries);
         }
-        catch
+        catch (Exception ex)
         {
-            // 记录失败不影响主流程
+            // 记录失败不影响主流程，但写入日志便于排查
+            Logger?.LogWarning(ex, "记录重启计数失败");
         }
     }
 
@@ -54,9 +64,10 @@ public static class RestartGuard
             if (File.Exists(countFilePath))
                 File.Delete(countFilePath);
         }
-        catch
+        catch (Exception ex)
         {
-            // 清除失败不影响主流程
+            // 清除失败不影响主流程，但写入日志便于排查
+            Logger?.LogWarning(ex, "清除重启计数失败");
         }
     }
 
@@ -73,10 +84,16 @@ public static class RestartGuard
             var entries = ReadEntries(countFilePath);
             var cutoff = DateTime.UtcNow - RestartWindow;
             var recentCount = entries.Count(t => t > cutoff);
-            return recentCount >= MaxRestartCount;
+            var exceeded = recentCount >= MaxRestartCount;
+            if (exceeded)
+            {
+                Logger?.LogWarning("短时间内已重启 {Count} 次，达到上限 {Max}，放弃继续重启", recentCount, MaxRestartCount);
+            }
+            return exceeded;
         }
-        catch
+        catch (Exception ex)
         {
+            Logger?.LogWarning(ex, "读取重启计数失败，保守放行");
             return false;
         }
     }
