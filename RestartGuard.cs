@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using ClassIsland.Core;
+using ClassIsland.Shared;
 using Microsoft.Extensions.Logging;
 
 namespace UACHope;

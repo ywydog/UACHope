@@ -2,6 +2,7 @@ using Avalonia.Interactivity;
 using ClassIsland.Core;
 using ClassIsland.Core.Abstractions.Controls;
 using ClassIsland.Core.Attributes;
+using ClassIsland.Shared;
 using UACHope.Settings;
 
 namespace UACHope.SettingsPage;

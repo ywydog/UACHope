@@ -1,7 +1,9 @@
+using System.Runtime.Versioning;
 using System.Security.Principal;
 
 namespace UACHope;
 
+[SupportedOSPlatform("windows")]
 public static class AdminHelper
 {
     public static bool IsRunningAsAdmin()

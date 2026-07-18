@@ -11,7 +11,6 @@ namespace UACHope.Settings;
 /// </summary>
 public class UACHopeConfig : INotifyPropertyChanged
 {
-    public event EventHandler? RestartPropertyChanged;
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private bool _isAutoElevateEnabled = true;
